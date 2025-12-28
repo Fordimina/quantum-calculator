@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Chrono-Analyzer</title>
+    <style>
+        :root {
+            --primary: #00ff88;
+            --bg: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* The Main Container */
+        .container {
+            background: var(--glass);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid #333;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* Input Styling */
+        input {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            color: white;
+            padding: 15px;
+            width: 80%;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+        }
+
+        /* Button Styling */
+        button {
+            background: var(--primary);
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            transition: transform 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* The Console Log Area (Hidden by default) */
+        #terminal {
+            display: none;
+            text-align: left;
+            margin-top: 20px;
+            height: 150px;
+            overflow: hidden;
+            font-size: 0.85rem;
+            color: #ccc;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+
+        .log-entry {
+            margin: 5px 0;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        .highlight { color: var(--primary); }
+        .warning { color: #ff5555; }
+
+        /* The Result Modal (Hidden by default) */
+        #result-screen {
+            display: none;
+            margin-top: 20px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .big-result {
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--primary);
+            margin: 10px 0;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Background Matrix Effect */
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 0.2;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="container">
+        <h1>⚛ Quantum Age Calculator ⚛</h1>
+        
+        <div id="input-section">
+            <p style="font-size: 0.8rem; opacity: 0.7;">Connect to the Universal Time Grid:</p>
+            <input type="date" id="dobInput">
+            <br>
+            <button onclick="startPrank()">Calculate Existence</button>
+        </div>
+
+        <div id="terminal"></div>
+
+        <div id="result-screen">
+            <h2>Analysis Complete</h2>
+            <p>According to the multiverse...</p>
+            <div class="big-result" id="final-output"></div>
+            <p style="color: #888; font-size: 0.8rem;">(Calculation accuracy: 100%)</p>
+            <button onclick="location.reload()" style="margin-top:15px; background: transparent; border: 1px solid var(--primary); color: var(--primary);">Reset Timeline</button>
+        </div>
+    </div>
+
+    <script>
+        // The Prank Logic
+        const messages = [
+            "Initializing Quantum Core...",
+            "Connecting to NASA Mainframe...",
+            "<span class='highlight'>Accessing The Multiverse...</span>",
+            "Bribing Doctor Strange for the Time Stone...",
+            "Calculating Pi to the last digit...",
+            "Reading your horoscope...",
+            "<span class='warning'>⚠ REALITY DISTORTION DETECTED ⚠</span>",
+            "Stabilizing the space-time continuum...",
+            "Consulting the Elder Gods...",
+            "Asking OpenAI if you are real...",
+            "Unifying Superman, Batman, and Shaktimaan...",
+            "Downloading more RAM...",
+            "Analyzing birth certificate pixels...",
+            "Almost there... converting to human years..."
+        ];
+
+        function startPrank() {
+            const date = document.getElementById('dobInput').value;
+            if(!date) { alert("Please enter a date to disrupt the timeline."); return; }
+
+            // Hide input, show terminal
+            document.getElementById('input-section').style.display = 'none';
+            const terminal = document.getElementById('terminal');
+            terminal.style.display = 'block';
+
+            let i = 0;
+            const interval = setInterval(() => {
+                // Add a new message
+                const p = document.createElement('div');
+                p.className = 'log-entry';
+                p.innerHTML = `> ${messages[i]}`;
+                terminal.prepend(p); // Add to top
+
+                i++;
+
+                // When we run out of messages, show the result
+                if (i >= messages.length) {
+                    clearInterval(interval);
+                    showResult(date);
+                }
+            }, 800); // New message every 0.8 seconds
+        }
+
+        function showResult(date) {
+            document.getElementById('terminal').style.display = 'none';
+            const resultDiv = document.getElementById('result-screen');
+            const outputDiv = document.getElementById('final-output');
+            
+            resultDiv.style.display = 'block';
+            
+            // Format the date to look official
+            const dateObj = new Date(date);
+            const dateString = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+            // THE PUNCHLINE
+            outputDiv.innerHTML = dateString;
+        }
+
+        // --- Matrix Background Effect (Visual Candy) ---
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const chars = "0101010101ZE RO ON E";
+        const drops = Array(Math.floor(canvas.width / 15)).fill(1);
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00ff88";
+            ctx.font = "15px monospace";
+            drops.forEach((y, i) => {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * 15, y * 15);
+                if (y * 15 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+        setInterval(drawMatrix, 50);
+        window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+    </script>
+</body>
+</html>
