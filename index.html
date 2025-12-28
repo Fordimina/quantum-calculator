@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧬 Soul Scanner 9000</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #ff3333; /* Red danger theme */
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            border: 2px solid #ff3333;
+            padding: 20px;
+            background: rgba(20, 0, 0, 0.9);
+            box-shadow: 0 0 30px #ff0000;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            text-transform: uppercase;
+            font-size: 1.5rem;
+            border-bottom: 1px dashed #ff3333;
+            padding-bottom: 10px;
+            animation: flicker 2s infinite;
+        }
+
+        input {
+            background: #111;
+            border: 1px solid #ff3333;
+            color: white;
+            padding: 10px;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            text-align: center;
+            width: 80%;
+            outline: none;
+        }
+
+        button {
+            background: #ff3333;
+            color: black;
+            font-weight: bold;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        button:hover { background: white; }
+
+        /* Loading Area */
+        #loading-screen {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+            height: 150px;
+            overflow: hidden;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        .log { margin: 5px 0; color: #0f0; }
+        .error { color: red; font-weight: bold; }
+
+        /* Result Area */
+        #result-screen {
+            display: none;
+            border-top: 2px solid white;
+            margin-top: 20px;
+            padding-top: 20px;
+        }
+
+        .roast-title { font-size: 1.5rem; color: white; margin-bottom: 10px; }
+        .roast-text { font-size: 1.1rem; color: #ff3333; line-height: 1.5; font-weight: bold; }
+        
+        .cringe-meter {
+            margin-top: 15px;
+            width: 100%;
+            background: #333;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .cringe-fill {
+            height: 100%;
+            background: linear-gradient(90deg, yellow, red);
+            width: 0%;
+            transition: width 2s ease-out;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🧬 Bio-Data Extractor 🧬</h1>
+        <p style="font-size: 0.8rem; color: #aaa;">WARNING: Results are 100% scientifically accurate.</p>
+        
+        <div id="input-box">
+            <label>ENTER DATE OF BIRTH:</label><br>
+            <input type="date" id="dob">
+            <br>
+            <button onclick="startRoast()">INITIATE SCAN</button>
+        </div>
+
+        <div id="loading-screen"></div>
+
+        <div id="result-screen">
+            <div class="roast-title">Subject Identified:</div>
+            <div class="roast-text" id="final-roast"></div>
+            
+            <p style="color: white; margin-top: 15px;">CRINGE LEVEL DETECTED:</p>
+            <div class="cringe-meter"><div class="cringe-fill" id="cringe-bar"></div></div>
+            <p id="cringe-percent" style="color: yellow;">0%</p>
+        </div>
+    </div>
+
+    <script>
+        function calculateAge(dob) {
+            const diff_ms = Date.now() - new Date(dob).getTime();
+            const age_dt = new Date(diff_ms); 
+            return Math.abs(age_dt.getUTCFullYear() - 1970);
+        }
+
+        const logs = [
+            "Connecting to Global Satellite...",
+            "Accessing Webcam (Don't move)...",
+            "<span class='error'>⚠ Face detected. System shocked.</span>",
+            "Calculating brain usage percentage...",
+            "Result: 0.0001% detected.",
+            "Analyzing social skills...",
+            "Error: Social skills not found.",
+            "Consulting the roasted archives...",
+            "Finalizing report..."
+        ];
+
+        function startRoast() {
+            const dob = document.getElementById('dob').value;
+            if(!dob) { alert("Enter a date, genius."); return; }
+
+            const age = calculateAge(dob);
+            
+            // Hide input
+            document.getElementById('input-box').style.display = 'none';
+            const loader = document.getElementById('loading-screen');
+            loader.style.display = 'block';
+
+            let i = 0;
+            const interval = setInterval(() => {
+                const div = document.createElement('div');
+                div.className = 'log';
+                div.innerHTML = `> ${logs[i]}`;
+                loader.appendChild(div);
+                i++;
+
+                if (i >= logs.length) {
+                    clearInterval(interval);
+                    setTimeout(() => showResult(age), 1000);
+                }
+            }, 600);
+        }
+
+        function showResult(age) {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            
+            const roastText = document.getElementById('final-roast');
+            const cringeBar = document.getElementById('cringe-bar');
+            const cringePercent = document.getElementById('cringe-percent');
+
+            let roast = "";
+            let cringeLevel = 0;
+
+            // THE ROAST LOGIC BASED ON AGE
+            if (age < 13) {
+                roast = "👶 <b>STATUS: IPAD KID</b><br><br>You shouldn't even be on this website. Go drink your milk and watch Skibidi Toilet. Your brain is 90% Roblox and 10% sugar crash.";
+                cringeLevel = 100;
+            } else if (age >= 13 && age < 17) {
+                roast = "🤡 <b>STATUS: EDGELORD TEEN</b><br><br>Warning: Hormones detected. You probably think you're the 'Main Character' of the universe. Spoiler alert: You're an NPC.";
+                cringeLevel = 95;
+            } else if (age >= 17 && age < 23) {
+                roast = "💀 <b>STATUS: BROKE STUDENT</b><br><br>You are currently running on 3 hours of sleep and instant noodles. Your future is as unclear as your skin complexion.";
+                cringeLevel = 80;
+            } else if (age >= 23 && age < 30) {
+                roast = "📉 <b>STATUS: QUARTER-LIFE CRISIS</b><br><br>You're too old for TikTok but too poor to buy a house. You probably have back pain right now.";
+                cringeLevel = 60;
+            } else {
+                roast = "🦖 <b>STATUS: ANCIENT RELIC</b><br><br>How did you find this website? Did you ask your grandkids for help? Please don't break your hip scrolling down.";
+                cringeLevel = 40;
+            }
+
+            roastText.innerHTML = roast;
+
+            // Animate the bar
+            setTimeout(() => {
+                cringeBar.style.width = cringeLevel + "%";
+                cringePercent.innerText = cringeLevel + "% (CRITICAL)";
+            }, 100);
+        }
+    </script>
+</body>
+</html>
