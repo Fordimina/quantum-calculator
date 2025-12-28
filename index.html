@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚠ Bezzati Scanner ⚠</title>
+    <title>⚠ CAREER NOT FOUND ⚠</title>
     <style>
         body {
-            background-color: #0d0d0d;
-            color: #00ff00; /* Hacker Green */
+            background-color: #000;
+            color: #ff0055;
             font-family: 'Courier New', monospace;
             display: flex;
             justify-content: center;
@@ -15,114 +15,117 @@
             min-height: 100vh;
             margin: 0;
             text-align: center;
+            overflow: hidden;
         }
 
         .container {
             width: 90%;
             max-width: 450px;
-            border: 2px solid #00ff00;
-            padding: 20px;
-            background: rgba(0, 20, 0, 0.9);
-            box-shadow: 0 0 20px #00ff00;
+            border: 3px solid #ff0055;
+            padding: 25px;
+            background: rgba(20, 0, 5, 0.95);
+            box-shadow: 0 0 25px #ff0055;
+            position: relative;
         }
 
         h1 {
-            border-bottom: 2px dashed #00ff00;
-            padding-bottom: 10px;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: glitch 1s infinite;
+        }
+
+        /* Glitch Animation */
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px #0ff, -2px -2px #f00; }
+            50% { text-shadow: -2px -2px #0ff, 2px 2px #f00; }
+            100% { text-shadow: 2px 2px #0ff, -2px -2px #f00; }
         }
 
         input {
-            background: #000;
-            border: 1px solid #00ff00;
+            background: #111;
+            border: 1px solid #ff0055;
             color: white;
-            padding: 12px;
+            padding: 15px;
             width: 80%;
             text-align: center;
-            font-size: 1rem;
-            margin: 15px 0;
+            font-size: 1.1rem;
+            margin: 20px 0;
             outline: none;
         }
 
         button {
-            background: #00ff00;
-            color: black;
+            background: #ff0055;
+            color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 15px 30px;
             font-weight: bold;
             font-size: 1rem;
             cursor: pointer;
-            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.2s;
         }
         
-        button:hover { background: white; }
+        button:hover { background: white; color: black; box-shadow: 0 0 15px white; }
 
         #logs {
             text-align: left;
             margin-top: 20px;
-            height: 120px;
+            height: 140px;
             overflow: hidden;
-            font-size: 0.8rem;
-            color: #88ff88;
+            font-size: 0.85rem;
+            color: #ffaaaa;
             display: none;
+            border-top: 1px dashed #555;
+            padding-top: 10px;
         }
 
         #result {
             display: none;
             margin-top: 20px;
-            border: 1px solid white;
-            padding: 15px;
-            animation: shake 0.5s;
+            border: 2px solid white;
+            padding: 20px;
+            background: #000;
         }
 
-        .roast-header { font-size: 1.2rem; color: yellow; font-weight: bold; }
-        .roast-body { font-size: 1.1rem; color: white; margin-top: 10px; line-height: 1.4; }
-
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
+        .tagline { font-size: 1.4rem; color: yellow; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;}
+        .roast-msg { font-size: 1.1rem; color: white; line-height: 1.5; }
+        .highlight { color: #00ffcc; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>💀 IZJAT SCANNER 💀</h1>
-        <p>Enter your DOB to see your future.</p>
+        <h1>FUTURE BARBAAD</h1>
+        <p style="font-size: 0.8rem; color: #888;">AI Analysis of your "Academic Comeback"</p>
         
         <div id="input-area">
             <input type="date" id="dob">
             <br>
-            <button onclick="startBezzati()">CHECK AUKAAT</button>
+            <button onclick="startAnalysis()">Scan Future</button>
         </div>
 
         <div id="logs"></div>
 
         <div id="result">
-            <div class="roast-header" id="header-text"></div>
-            <div class="roast-body" id="body-text"></div>
-            <button onclick="location.reload()" style="margin-top:15px; background: transparent; border: 1px solid white; color: white;">Try Again</button>
+            <div class="tagline" id="tagline"></div>
+            <div class="roast-msg" id="roast-msg"></div>
+            <br>
+            <button onclick="location.reload()" style="background: transparent; border: 1px solid white; font-size: 0.8rem;">Try Again (Besharam)</button>
         </div>
     </div>
 
     <script>
         const logs = [
-            "Connecting to Aadhaar Server...",
-            "Matching Fingerprints...",
-            "Scanning Brain Cells... (Error: Not Found)",
-            "Checking Bank Balance... (Rs. 0 detected)",
-            "Searching Incognito History...",
-            "Loading Bezzati Protocol...",
-            "Finalizing Report..."
+            "Accessing University Database...",
+            "Counting Backlogs... (System Overload)",
+            "Scanning Instagram Screen Time...",
+            "Detecting 'Moye Moye' levels...",
+            "Searching for 'Padhai' folder... (File Empty)",
+            "Analyzing parents' disappointment...",
+            "Calculating probability of Berozgaari...",
+            "Finalizing Bezzati..."
         ];
 
         function calculateAge(dob) {
@@ -131,9 +134,9 @@
             return Math.abs(age_dt.getUTCFullYear() - 1970);
         }
 
-        function startBezzati() {
+        function startAnalysis() {
             const dob = document.getElementById('dob').value;
-            if(!dob) { alert("Date daal na bhai..."); return; }
+            if(!dob) { alert("Darr lag raha hai kya? Date daal."); return; }
             
             document.getElementById('input-area').style.display = 'none';
             const logDiv = document.getElementById('logs');
@@ -142,47 +145,48 @@
             let i = 0;
             const interval = setInterval(() => {
                 const p = document.createElement('div');
-                p.innerText = "> " + logs[i];
-                logDiv.appendChild(p);
+                p.innerHTML = `> ${logs[i]}`;
+                logDiv.prepend(p);
                 i++;
 
                 if(i >= logs.length) {
                     clearInterval(interval);
-                    showResult(calculateAge(dob));
+                    setTimeout(() => showResult(calculateAge(dob)), 800);
                 }
-            }, 700);
+            }, 600);
         }
 
         function showResult(age) {
             document.getElementById('logs').style.display = 'none';
             document.getElementById('result').style.display = 'block';
 
-            let header = "";
-            let body = "";
+            let tag = "";
+            let msg = "";
 
-            if (age < 13) {
-                header = "👶 STATUS: POGO KID";
-                body = "Beta phone mummy ko wapas karo. Abhi tumhare doodh ke daant bhi nahi tute aur yahan aa gaye? Jaa ke homework kar.";
+            // LOGIC FOR ROASTS
+            if (age < 16) {
+                tag = "🤡 INSTA KA 14 🤡";
+                msg = "Subah utho, Reel scroll karo, so jao. Bas yahi aata hai tujhe. <br><br>School mein homework hota nahi, aur bio mein likha hai 'Official Account'. Beta, tumhara account sirf report hone ke layak hai.";
             } 
-            else if (age >= 13 && age < 18) {
-                header = "🦎 STATUS: CHAPRI NIBBA";
-                body = "KTM ki bike aur rangeen baal... yahi future hai tumhara. Padhai likhai mein dhyan lagao, IAS YAS bano, par nahi tumhe toh reel banani hai.";
+            else if (age >= 16 && age < 20) {
+                tag = "📉 JEE/NEET ASPIRANT (FAKE)";
+                msg = "Tumhara 'Academic Comeback' kabhi nahi aane wala. <br><br>Kitaab kholte ho toh neend aati hai, aur phone uthate hi energy aa jati hai. Mummy-Papa soch rahe engineer banega, par beta yahan 'Elvish Bhai' ke edits bana raha hai.";
             } 
-            else if (age >= 18 && age < 25) {
-                header = "🚫 STATUS: TOTAL NALLA";
-                body = "Ghar walon ka boj aur doston ka joker. Din bhar phone chalana aur sapne dekhna billionaire banne ke. Sharam kar le thodi.";
+            else if (age >= 20 && age < 24) {
+                tag = "📚 BACKLOG EMPEROR 📚";
+                msg = "Degree complete hogi ya nahi, bhagwan jaane. <br><br>Exam se ek raat pehle YouTube videos dekh ke paas hone ka ghamand hai? Resume bilkul khaali hai, aur sapne Google ke dekh raha hai. Sharam kar le.";
             } 
-            else if (age >= 25 && age < 30) {
-                header = "📉 STATUS: ZINDAGI JHAND";
-                body = "Na naukri hai, na chokri hai. Bas 'Cutie' dhoond rahe ho internet pe. Aadhaar card photo mein bhi tum rote hue dikh rahe ho.";
+            else if (age >= 24 && age < 30) {
+                tag = "🏳️ BEROZGAAR PRO MAX";
+                msg = "LinkedIn pe 'Open to Work' daalne se naukri nahi milti. <br><br>Dost shaadi kar rahe hain, promotion le rahe hain, aur tum abhi bhi soch rahe ho ki 'Monday se pakka padhunga'. Tumhara kuch nahi ho sakta.";
             } 
             else {
-                header = "👴 STATUS: UNCLE JI";
-                body = "Aap yahan kya kar rahe ho? WhatsApp University pe Fake News failao. Jao yoga voga karo, ye sab moh maya hai.";
+                tag = "💀 EXPIRED ITEM";
+                msg = "Umar nikal gayi hai. Ab toh bas relatives ke taane sunne ka time hai. Jaa ke teerth yatra kar le, shayad wahan kuch bhala ho jaye.";
             }
 
-            document.getElementById('header-text').innerText = header;
-            document.getElementById('body-text').innerText = body;
+            document.getElementById('tagline').innerHTML = tag;
+            document.getElementById('roast-msg').innerHTML = msg;
         }
     </script>
 </body>
